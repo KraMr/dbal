@@ -838,7 +838,7 @@ class SQLServerPlatform extends AbstractPlatform
                           CAST(prop.value AS NVARCHAR(MAX)) AS comment -- CAST avoids driver error for sql_variant type
                 FROM      sys.columns AS col
                 JOIN      sys.types AS type
-                ON        col.user_type_id = type.user_type_id
+                ON        col.system_type_id = type.user_type_id
                 JOIN      sys.objects AS obj
                 ON        col.object_id = obj.object_id
                 JOIN      sys.schemas AS scm
