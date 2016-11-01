@@ -838,7 +838,21 @@ class SQLServerPlatform extends AbstractPlatform
                           CAST(prop.value AS NVARCHAR(MAX)) AS comment -- CAST avoids driver error for sql_variant type
                 FROM      sys.columns AS col
                 JOIN      sys.types AS type
-                ON        col.user_type_id = type.user_type_id
+                ON        col.    public function getListTableColumnsSQL($table, $database = null)
+    {
+        return "SELECT    col.name,
+                          type.name AS type,
+                          col.max_length AS length,
+                          ~col.is_nullable AS notnull,
+                          def.definition AS [default],
+                          col.scale,
+                          col.precision,
+                          col.is_identity AS autoincrement,
+                          col.collation_name AS collation,
+                          CAST(prop.value AS NVARCHAR(MAX)) AS comment -- CAST avoids driver error for sql_variant type
+                FROM      sys.columns AS col
+                JOIN      sys.types AS type
+                ON        col.system_type_id = type.user_type_id
                 JOIN      sys.objects AS obj
                 ON        col.object_id = obj.object_id
                 JOIN      sys.schemas AS scm
